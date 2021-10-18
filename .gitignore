@@ -1,5 +1,3 @@
-.gitignore
-
 #使わなくなったコードたちや画像
 trash/
 resultImages/*
