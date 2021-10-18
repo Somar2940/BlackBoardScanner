@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image
 
 #putAlphaChanel
 im_rgb = Image.open('img/transparent_in.jpg')
@@ -20,11 +20,13 @@ def pil2cv(image):
 
 
 #Transparent
-img = cv2.imread('img/IMG_0326.JPG', -1)                       	# -1はAlphaを含んだ形式(0:グレー, 1:カラー)
 img = pil2cv(im_rgba)
-color_lower = np.array([70, 95, 95, 255])                 # 抽出する色の下限(BGR形式)
-color_upper = np.array([182, 188, 194, 255])              # 抽出する色の上限(BGR形式)
-img_mask = cv2.inRange(img, color_lower, color_upper)    # 範囲からマスク画像を作成
-img_bool = cv2.bitwise_not(img, img, mask=img_mask)      # 元画像とマスク画像の演算(背景を白くする)
+hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+lowerHSV = (50, 0, 0)
+upperHSV = (110,150, 150)
+img_mask = cv2.inRange(hsv, lowerHSV, upperHSV) #範囲からマスク画像を作成
+img_bool = cv2.bitwise_not(img, img, mask=img_mask)      #元画像とマスク画像の演算(背景を白くする)
+kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5)) #フィルタ
+opening = cv2.morphologyEx(img_bool, cv2.MORPH_OPEN, kernel) #オープニング処理
 
-cv2.imwrite('resultImages/transparent_out.png', img_bool)                      # 画像保存
+cv2.imwrite('resultImages/transparent_out_open.png', opening)                      # 画像保存
