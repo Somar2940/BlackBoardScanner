@@ -2,4 +2,5 @@
 trash/
 resultImages/*
 
-vertices.csv
+#csvファイルは各々で生成してくれ
+*.csv
