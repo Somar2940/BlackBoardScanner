@@ -1,0 +1,6 @@
+#使わなくなったコードたちや画像
+trash/
+resultImages/*
+hsvmemo.txt
+vertices.csv
+.ipynb_checkpoints
