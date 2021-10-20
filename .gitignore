@@ -4,3 +4,5 @@ resultImages/*
 hsvmemo.txt
 vertices.csv
 .ipynb_checkpoints
+
+__pycache__/*
