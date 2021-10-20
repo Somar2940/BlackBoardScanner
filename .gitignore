@@ -1,6 +1,8 @@
 #使わなくなったコードたちや画像
 trash/
 resultImages/*
+hsvmemo.txt
+vertices.csv
+.ipynb_checkpoints
 
-#csvファイルは各々で生成してくれ
-*.csv
+__pycache__/*
