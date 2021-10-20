@@ -42,7 +42,7 @@ if approx_cnt_sort[2][1] > approx_cnt_sort[3][1]:
 
 
 #4頂点の座標をcsvファイルとして保存
-print(approx_cnt_sort)
+#print(approx_cnt_sort)
 with open('vertices.csv', 'w') as file:
     writer = csv.writer(file, lineterminator='\n')
     writer.writerows(approx_cnt_sort)
