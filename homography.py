@@ -51,5 +51,7 @@ def homo(img):
       output = homoImage[ydst:(height-(ydst*3)),xdst:width, :]
    elif (int(pts1[2][0]) == (def_width-1)) | (int(pts1[3][0]) == (def_width-1)):
       output = homoImage[ydst:(height-(ydst*2)),0:(width-xdst), :]
+   else:
+      output = homoImage[ydst:(height-(ydst*2)),xdst:(width-xdst), :]
 
    return output
