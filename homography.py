@@ -10,7 +10,7 @@ def homo(img):
       reader = csv.reader(file)
       vertices = [ [int(j) for j in i] for i in reader ]
 
-   outputWidth = 1000 #処理後画像の横方向画素数
+   outputWidth = 3000 #処理後画像の横方向画素数
    def get_distance(x1,y1,x2,y2):
       distance = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
       return distance

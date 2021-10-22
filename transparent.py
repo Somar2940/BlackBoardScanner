@@ -28,21 +28,26 @@ def trans(inimg):
             new_image = cv2.cvtColor(new_image, cv2.COLOR_RGBA2BGRA)
         return new_image
 
-    #putAlphaChanel
-    im_rgb = cv2pil(inimg)
+    # median filter
+    img_med = cv2.medianBlur(inimg, ksize=3)
+
+    # putAlphaChanel
+    im_rgb = cv2pil(img_med)
     im_rgba = im_rgb.copy()
     im_rgba.putalpha(255)
 
-    #Transparent
+    # transparent
     img = pil2cv(im_rgba)
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     lowerHSV = (50, 0, 0)
     upperHSV = (110,150, 150)
-    img_mask = cv2.inRange(hsv, lowerHSV, upperHSV) #範囲からマスク画像を作成
-    img_bool = cv2.bitwise_not(img, img, mask=img_mask)      #元画像とマスク画像の演算(背景を白くする)
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 1)) #フィルタ
-    opening = cv2.morphologyEx(img_bool, cv2.MORPH_OPEN, kernel) #オープニング処理
+    img_mask = cv2.inRange(hsv, lowerHSV, upperHSV) # 範囲からマスク画像を作成
+    img_bool = cv2.bitwise_not(img, img, mask=img_mask)      # 元画像とマスク画像の演算(背景を白くする)
 
-    return opening
+    # オープニング処理処理
+    # kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 1)) #フィルタ
+    # opening = cv2.morphologyEx(img_bool, cv2.MORPH_OPEN, kernel) #オープニング処理
 
-    #cv2.imwrite('resultImages/transparent_out_open.png', opening)                      # 画像保存
+    return img_bool
+
+    # cv2.imwrite('resultImages/transparent_out_open.png', opening)                      # 画像保存
