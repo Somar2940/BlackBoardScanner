@@ -30,11 +30,12 @@ for i, cnt in enumerate(con):
     n = 1
     while True:
         approx_cnt = cv2.approxPolyDP(cnt, epsilon=n * 0.01 * arclen, closed=True)
-        n += 1
         if len(approx_cnt) == 4:
             break
-        if len(approx_cnt) < 4:
+        elif len(approx_cnt) < 4:
             n -= 0.4
+        else:
+            n += 1
 
 # 次元を減らして要素をsort
 approx_cnt = np.squeeze(approx_cnt)
