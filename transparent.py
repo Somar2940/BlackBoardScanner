@@ -40,7 +40,7 @@ def trans(inimg):
     upperHSV = (110,150, 150)
     img_mask = cv2.inRange(hsv, lowerHSV, upperHSV) #範囲からマスク画像を作成
     img_bool = cv2.bitwise_not(img, img, mask=img_mask)      #元画像とマスク画像の演算(背景を白くする)
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5)) #フィルタ
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 1)) #フィルタ
     opening = cv2.morphologyEx(img_bool, cv2.MORPH_OPEN, kernel) #オープニング処理
 
     return opening

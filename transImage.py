@@ -2,7 +2,7 @@ import cv2
 import transparent
 import homography
 
-img_path = 'img/IMG_0326.JPG'
+img_path = 'img/IMG_0653.JPG'
 img = cv2.imread(img_path)
 
 homoImage = homography.homo(img)
