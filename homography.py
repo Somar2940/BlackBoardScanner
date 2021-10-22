@@ -6,6 +6,7 @@ import csv
 import math
 
 def homo(img):
+   def_height, def_width = img.shape[:2]
    with open('vertices.csv', 'r') as file:
       reader = csv.reader(file)
       vertices = [ [int(j) for j in i] for i in reader ]
@@ -41,8 +42,14 @@ def homo(img):
 
    #生成画像の上下左右にmarginを追加
    height, width = homoImage.shape[:2]
-   ydst = int(height*0.01)
-   xdst = int(width*0.01)
-   output = homoImage[ydst:(height-(ydst*3)),xdst:(width-xdst), :]
+   ydst = int(height*0.02)
+   xdst = int(width*0.02)
+   # 左か右か中央か判断
+   if ((int(pts1[0][0]) == 0) | (int(pts1[1][0]) == 0)) & (int(pts1[2][0]) == def_width) | (int(pts1[3][0]) == def_width):
+      output = homoImage[ydst:(height-(ydst*3)),0:width, :]
+   elif (int(pts1[0][0]) == 0) | (int(pts1[1][0]) == 0):
+      output = homoImage[ydst:(height-(ydst*3)),xdst:width, :]
+   elif (int(pts1[2][0]) == (def_width-1)) | (int(pts1[3][0]) == (def_width-1)):
+      output = homoImage[ydst:(height-(ydst*2)),0:(width-xdst), :]
 
    return output
