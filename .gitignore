@@ -3,6 +3,7 @@ trash/
 resultImages/*
 hsvmemo.txt
 vertices.csv
+genSlide7.py
 .ipynb_checkpoints
 
 __pycache__/*
