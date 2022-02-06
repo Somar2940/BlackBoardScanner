@@ -12,5 +12,6 @@ resultImages/*.png
 resultImages/*.jpg
 
 genSlide7.py
+countzero.py
 .ipynb_checkpoints
 drawio/
