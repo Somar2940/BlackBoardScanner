@@ -7,7 +7,7 @@ trash/
 img/*.JPG
 img/*.png
 img/*.jpg
-vertices.csv
+
 resultImages/*.png
 resultImages/*.jpg
 

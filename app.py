@@ -24,13 +24,9 @@ import homography
 # /dev/video0を指定
 DEV_ID = 0
 
-# 画像パラメータ
-CAMERA_WIDTH = 640
-CAMERA_HEIGHT = 480
-
 # 実行開始時間
 START_TIME = time.time()
-END_TIME_SECOND = 60 * 90 #(秒)
+END_TIME_SECOND = 60 * 1 #(秒)
 
 # imgfileのsort
 def atoi(text):
@@ -60,6 +56,8 @@ else:
 Direction = sys.argv[3]
 
 # カメラセットアップ
+CAMERA_WIDTH = 640
+CAMERA_HEIGHT = 480
 stream = io.BytesIO()
 camera = picamera.PiCamera()
 camera.resolution = (CAMERA_WIDTH, CAMERA_HEIGHT)
@@ -80,14 +78,16 @@ def servo_angle_x(angle):
       servo[1].ChangeDutyCycle(5.609) # 5.608611
    else:
       pass
+   servo[1].ChangeDutyCycle(0.0)
    time.sleep(0.5)
 
 def image_process():
    camera.capture(stream, format='jpeg')
    data = np.fromstring(stream.getvalue(), dtype=np.uint8)
-   img = cv2.imdecode(data, 1)
-   homo_image = homography.homo(img)
-   return homo_image
+   cap_img = cv2.imdecode(data, 1)
+   stream.seek(0)
+   stream.truncate()
+   return homography.homo(cap_img)
 
 def match_ratio_calc(img1, img2):
    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
@@ -97,6 +97,9 @@ def match_ratio_calc(img1, img2):
    return cv2.compareHist(img_hist_1, img_hist_2, 0)
 
 # main
+# output1_imgs = []
+# output2_imgs = []
+# trans_imgs = []
 cap_img_count = 0
 final_break_flag = False
 while True:
@@ -107,19 +110,23 @@ while True:
       output1_img = image_process()
       time.sleep(5)
       output2_img = image_process()
-      # 人がいるか
+      print('point "one"')
+      # 人がいないか
       match_ratio = match_ratio_calc(output1_img, output2_img)
       if match_ratio >= 0.95: #閾値
-         trans_img = transparent(output2_img)
+         print('point "three"')
+         trans_img = transparent.trans(output2_img)
          # 黒板になにか書かれているか
          image_size = trans_img.size / 4
          text_pixel_count = cv2.countNonZero(trans_img[:,:,3])
          text_pixel_ratio = (text_pixel_count/image_size)
          if text_pixel_ratio >= 0.015:
             break_flag = True
+            print('point "four"')
          else:
             pass
       else:
+         print('point "two"')
          pass
 
       # while break point
@@ -139,30 +146,36 @@ while True:
    if cap_img_count <= 1:
       if (Direction == "left"):
          new_filename = str(len(left_imgs)+1) + ".png"
-         cv2.imwrite(IMG_DIR + "left/" + new_filename)
+         cv2.imwrite(IMG_DIR + "left/" + new_filename, trans_img)
+         print(IMG_DIR + "left/" + new_filename)
          left_imgs.append(new_filename)
       elif (Direction == "right"):
-         new_filename = str(len(right_imgs)+1)
-         cv2.imwrite(IMG_DIR + "right/" + new_filename)
+         new_filename = str(len(right_imgs)+1) + ".png"
+         print(IMG_DIR + "right/" + new_filename)
+         cv2.imwrite(IMG_DIR + "right/" + new_filename, trans_img)
          right_imgs.append(new_filename)
    else:
       # リストから前回の画像を取得
       if Direction == "left":
          before_img = cv2.imread(IMG_DIR + "left/" + str(left_imgs[-1]))
          if match_ratio_calc(before_img, trans_img) >= 0.95:
-            new_filename = str(len(left_imgs)+1)
-            cv2.imwrite(IMG_DIR + "left/" + new_filename)
+            new_filename = str(len(left_imgs)+1) + ".png"
+            cv2.imwrite(IMG_DIR + "left/" + new_filename, trans_img)
+            print(IMG_DIR + "left/" + new_filename)
             left_imgs.append(new_filename)
          else:
             time.sleep(10)
+            print('point "six" of left')
       elif Direction == "right":
          before_img = cv2.imread(IMG_DIR + "right/" + str(right_imgs[-1]))
          if match_ratio_calc(before_img, trans_img) >= 0.95:
-            new_filename = str(len(right_imgs)+1)
-            cv2.imwrite(IMG_DIR + "right/" + new_filename)
+            new_filename = str(len(right_imgs)+1) + ".png"
+            cv2.imwrite(IMG_DIR + "right/" + new_filename, trans_img)
+            print(IMG_DIR + "right/" + new_filename)
             right_imgs.append(new_filename)
          else:
             time.sleep(10)
+            print('point "six" of right')
 
    if (time.time() - START_TIME) > (END_TIME_SECOND):
       break
@@ -171,6 +184,9 @@ while True:
    if Direction == "left":
       Direction = "right"
    elif Direction == "right":
-      Direction == "left"
+      Direction = "left"
 
    cap_img_count = cap_img_count + 1
+
+servo[1].stop()
+GPIO.cleanup()
