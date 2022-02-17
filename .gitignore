@@ -1,6 +1,7 @@
 colorDetector/
 blackboardScan.ipynb
 __pycache__
+script/__pycache__
 .DS_Store
 
 trash/
