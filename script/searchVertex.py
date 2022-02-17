@@ -1,5 +1,5 @@
 ## How to execution this Script
-## (ex)$ python3.7 left
+## (ex)$ python3.7 searchVertex.py left
 ### argv[1] is "direction"
 
 import sys
