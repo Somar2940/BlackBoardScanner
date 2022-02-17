@@ -1,5 +1,5 @@
 ## How to execution this Script
-## (ex)$ python3.7 5 TE left
+## (ex)$ python3.7 main.py 5 TE left
 ### argv[1] is "grade"
 ### argv[2] is "class"
 ### argv[3] is "Initial direction of motor"
