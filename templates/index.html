@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+   <div class="container px-4 px-lg-5 my-3">
+       <div class="text-center text-white">
+           <h1 class="display-4 fw-bolder">Search your Images</h1>
+           <p class="lead fw-normal text-white-50 mb-0">select date and class</p>
+       </div>
+   </div>
+</header>
+<!-- main-->
+<main class="py-5">
+   <div class="container px-4 px-lg-5 my-3">
+         <form method="POST">
+            <div class="row">
+               <div class="form-group col-6 py-4 py-lg-5 px-lg-5">
+                     <div class="mx-lg-4 mx-xl-5 w60">
+                        <div class="pb-lg-4">
+                           <label for="selectgrade">
+                                 <p class="h3">Grade<br></p>
+                           </label>
+                           <select class="form-control form-control-lg" id="selectgrade" style="background-color: azure;" name="grade">
+                                 <option>-</option>
+                                 <option>1年</option>
+                                 <option>2年</option>
+                                 <option>3年</option>
+                                 <option>4年</option>
+                                 <option>5年</option>
+                           </select>
+                        </div>
+                        <div class="pt-4 pt-lg-5">
+                           <label for="selectclass">
+                                 <p class="h3">Class<br></p>
+                           </label>
+                           <select class="form-control form-control-lg" id="selectclass" style="background-color: azure;" name="classroom">
+                                 <option>-</option>
+                                 <option>1組</option>
+                                 <option>2組</option>
+                                 <option>3組</option>
+                                 <option>TE</option>
+                                 <option>CI</option>
+                                 <option>HI</option>
+                           </select>
+                        </div>
+                     </div>
+               </div>
+               <div class="form-group col-6 py-4 py-lg-5 px-lg-5">
+                     <div class="mx-5 w60">
+                        <label for="selectdate">
+                           <p class="h3">Date<br></p>
+                        </label>
+                        <input class="form-control form-control-lg" id="selectdate" type="text" placeholder="Select Date.." readonly="readonly" style="background-color: azure;" name="date">
+                     </div>
+               </div>
+               <div class="text-center pt-2">
+                     <input type="submit" value="検索する" class="btn btn-primary">
+               </div>
+            </div>
+         </form>
+   </div>
+</main>
+{% endblock %}
+{% block flatpickrscript %}
+<script>
+   var sample = document.getElementById('selectdate');
+   var fp = flatpickr(sample, {
+       dateFormat: 'Y年m月d日',
+       locale: 'ja'
+   });
+</script>
+{% endblock %}

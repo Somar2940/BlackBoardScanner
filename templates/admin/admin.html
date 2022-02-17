@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-3">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Admin Page</h1>
+            <p class="lead fw-normal text-white-50 mb-0">select the setting item</p>
+        </div>
+    </div>
+ </header>
+<main class="py-5">
+    <div class="container px-4 px-lg-5 my-3">
+        <div class="row" id="vertex">
+            <div class="col-3 px-0">
+                <button　type="button" class="btn btn-secondary w-100 h-100" onclick="location.href='./vertexSetting'">
+                    <i class="fas fa-map-pin fa-5x"></i>
+                    <h4 class="text-center">Vertex</h4>
+                </button>
+            </div>
+            <div class="col-9 px-0 bg-light border border-start-0">
+                <div class="px-1 px-lg-3 px-xl-4 py-1 py-lg-2">
+                    <span class="lead">黒板の四隅座標の設定を行います．</span><br>
+                    <span>システム利用前に</span>
+                    <strong>初期設定</strong>
+                    <span>として行ってください．</span>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="schedule">
+
+        </div>
+    </div>
+</main>
+{% endblock %}
